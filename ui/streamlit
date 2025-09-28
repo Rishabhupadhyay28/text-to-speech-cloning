@@ -1,0 +1,32 @@
+import streamlit as st
+import os
+from src.tts_engine import text_to_speech
+from src.voice_cloning import clone_voice
+from src.preprocessing import preprocess_audio
+from config.settings import OUTPUT_DIR, SAMPLES_DIR
+from src.utils import ensure_dirs
+
+ensure_dirs([OUTPUT_DIR, SAMPLES_DIR])
+
+st.title("🗣️ Text to Speech with Voice Cloning")
+
+mode = st.radio("Choose Mode:", ["Text to Speech", "Voice Cloning"])
+
+if mode == "Text to Speech":
+    text = st.text_area("Enter text")
+    if st.button("Generate Speech"):
+        output_path = text_to_speech(text, "ui_tts.wav")
+        st.audio(output_path)
+
+if mode == "Voice Cloning":
+    text = st.text_area("Enter text")
+    audio_file = st.file_uploader("Upload your voice sample (wav/mp3)", type=["wav", "mp3"])
+    
+    if audio_file and st.button("Clone My Voice"):
+        sample_path = os.path.join(SAMPLES_DIR, audio_file.name)
+        with open(sample_path, "wb") as f:
+            f.write(audio_file.getbuffer())
+        
+        processed = preprocess_audio(sample_path, sample_path)
+        output_path = clone_voice(text, processed, "ui_clone.wav")
+        st.audio(output_path)

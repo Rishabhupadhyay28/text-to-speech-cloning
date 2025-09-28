@@ -1,0 +1,16 @@
+# Virtual environment
+venv310/
+__pycache__/
+*.pyc
+*.pyo
+
+# Output audio files
+data/output/
+data/samples/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/

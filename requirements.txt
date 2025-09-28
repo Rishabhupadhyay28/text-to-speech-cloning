@@ -1,0 +1,22 @@
+# Core
+numpy==1.22.0        # Required for TTS compatibility
+scipy==1.11.4
+soundfile
+pydub
+librosa
+
+# TTS (Coqui)
+TTS==0.22.0
+
+# FastAPI backend
+fastapi
+uvicorn[standard]
+python-multipart     # For file uploads
+
+# Streamlit frontend
+streamlit
+requests
+
+# Utils
+gitpython
+watchdog
